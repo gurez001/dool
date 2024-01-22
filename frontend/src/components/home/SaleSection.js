@@ -12,18 +12,18 @@ const SaleSection = () => {
     (state) => state.products
   );
   console.log(products);
-  const { error: fProductError,product:t_s_product } = useSelector((state) => state.productFeature);
+  const { error: fProductError, product: t_s_product } = useSelector(
+    (state) => state.productFeature
+  );
 
   return (
     <>
-      <section id="homepage" className="section-cont">
-        <div className="containor">
-          <div>
-            <LatestProducts products={products} />
-          </div>
-          <div>
-            <PopularProduct products={t_s_product} />
-          </div>
+      <section id="homepage" className="section-cont ">
+      <div className="coll-title">
+        <h2>Latest Products</h2>
+      </div>
+        <div className=" prod-cont cont-area-h">
+          <LatestProducts products={products} />
         </div>
       </section>
     </>

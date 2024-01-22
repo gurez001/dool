@@ -58,7 +58,7 @@ exports.featureProduct = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      product: product,
+      product: sortedProductFrequencyArray,
     });
   } catch (err) {
     return next(new ErrorHandler("Internal server error" + err, 500));
