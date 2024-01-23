@@ -2,32 +2,44 @@ import React from "react";
 import TimeAndDate from "../../layout/time/TimeAndDate";
 import { NavLink } from "react-router-dom";
 import "./Blog.css";
+import DOMPurify from "dompurify";
 
-const BlogPostCards = ({ item }) => {
+const BlogPostCards = ({ item}) => {
+  function htmlToPlainText(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  }
+
+  function sanitizeAndConvertToPlainText(html) {
+    const sanitizedHtml = DOMPurify.sanitize(html);
+    return htmlToPlainText(sanitizedHtml);
+  }
+
   return (
     <>
-      <div className="blog-inner">
+    <div className="blog-inner">
         <img src="https://gurez.com/wp-content/uploads/2023/05/Amazone-tape-3-600x600.webp" />
         <div className="blog-text">
-         
-            <h2> <NavLink to={`/blog/${item.slug}`}>{item.title}</NavLink></h2>
-          
+          <h2>
+            <NavLink to={`/blog/${item.slug}`}>{item.title}</NavLink>
+          </h2>
           <p style={{ fontWeight: 500 }}>
-            <TimeAndDate time={item.creditAt} />{" "}
+            <TimeAndDate time={item.creditAt} />
             <span style={{ float: "right" }}>
               {item.category && item.category.name}
             </span>
           </p>
-          <div
-                        className="blog-article"
-                        dangerouslySetInnerHTML={{
-                          __html: item.article,
-                        }}
-                      />
-          {/* <p className="blog-article">{item.article}</p> */}
+          
+         <p className="blog-article">{sanitizeAndConvertToPlainText(item.article)}</p>
+        
+
           <a href={`/blog/${item.slug}`}>Read More</a>
+       
+
+          </div>
         </div>
-      </div>
+   
+  
     </>
   );
 };

@@ -32,7 +32,10 @@ export const BlogPostReducer = (state = { blog: [] }, action) => {
     case ALL_BLOG_SUCCESS:
       return {
         loading: false,
-        blog: action.payload,
+        blog: action.payload.blog,
+        blogCount:action.payload.blogCount,
+        resultPerpage:action.payload.resultPerpage,
+
       };
     case ALL_BLOG_FAILED:
       return {

@@ -22,11 +22,21 @@ export const GetBlogPost = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_BLOG_REQUEST });
 
+    let link = `/api/v1/products`;
+    // let link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+    // if (ratings) {
+    //   link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+    // }
+    // if (subcategory) {
+    //   // link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${categorie}&ratings[gte]=${ratings}`;
+    //   link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${categorie}&subcategory=${subcategory}&ratings[gte]=${ratings}`;
+    // }
+
     const { data } = await axios.get("/api/v1/blog/all-post");
 
     dispatch({
       type: ALL_BLOG_SUCCESS,
-      payload: data.blog,
+      payload: data,
     });
   } catch (error) {
     dispatch({

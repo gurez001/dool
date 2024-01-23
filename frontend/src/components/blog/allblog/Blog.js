@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClearError, GetBlogPost } from "../../../actions/BlogPostAction";
-import { useAlert } from "react-alert";
 import BlogPostCards from "./BlogPostCards";
-import BlogCategory from "./BlogCategory";
-import { GetBlogCategory } from "../../../actions/BlogCategoryAction";
+import { GetBlogPost,ClearError } from "../../../actions/BlogPostAction";
+import {GetBlogCategory} from "../../../actions/BlogCategoryAction";
+import './Blog.css'
 import Loader from "../../layout/loader/Loader";
+import BlogCategory from "./BlogCategory";
 
-function Blog() {
+const Blog = () => {
   const dispatch = useDispatch();
-  const alert = useAlert();
-
-  const { loading, blog, error } = useSelector((state) => state.allBlog);
-
+  const { loading, blogCount, resultPerpage, blog, error } = useSelector(
+    (state) => state.allBlog
+  );
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -20,7 +19,7 @@ function Blog() {
     }
     dispatch(GetBlogPost());
     dispatch(GetBlogCategory());
-  }, [dispatch, alert, error]);
+  }, [dispatch,alert,error]);
   return (
     <>
       <div className="cont-area-h">
@@ -31,27 +30,44 @@ function Blog() {
                 <Loader />
               ) : (
                 <>
-                  {blog.map((item, i) => (
-                    <div key={i} className="blog-post">
-                      {/* <NavLink  to={`/blog/${item.slug}`}> */}
-                      <BlogPostCards item={item} />
-                      {/* </NavLink> */}
-                    </div>
-                  ))}
+                  {blog &&
+                    blog.map((item,i) => (
+                      
+                        <BlogPostCards key={i} item={item} />
+                    
+                    ))}
                 </>
               )}
             </div>
           </div>
           <div className="blog-right">
-            <div className="right-row">
-              <h2>Blog category</h2>
-              <BlogCategory />
-            </div>
+          <div className="right-row">
+            <h2>Blog category</h2>
+            <BlogCategory />
           </div>
         </div>
+        </div>
+        {/* {resultPerpage < blogCount && (
+        <div className="pagination-box">
+          <Pagination
+            totalItemsCount={blogCount}
+            activePage={currentPage}
+            itemsCountPerPage={resultPerpage}
+            onChange={setCurrentPageNo}
+            nextPageText="Next"
+            prevPageText="Prev"
+            firstPageText="1st"
+            lastPageText="Last"
+            itemClass="page-items"
+            linkClass="page-link"
+            activeClass="pageItemActive"
+            activeLinkClass="pageLinkActive"
+          />
+        </div>
+      )} */}
       </div>
     </>
   );
-}
+};
 
 export default Blog;

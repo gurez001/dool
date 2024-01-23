@@ -4,20 +4,33 @@ const CountModel = require("../models/CountModel");
 const blogPost = require("../models/blogPostModel");
 const ErrorHandler = require("../utils/errorhandler");
 const seoModel = require("../models/seoModel");
+const ApiFetures = require("../utils/apiFeatuers");
 
 //-------------- get all post
 exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
   try {
-    const blog = await blogPost.find().populate([
-      { path: "category", model: "blogCategore" },
-      { path: "user", model: "User" },
-      { path: "seo", model: "SEO" },
-    ]);
+    const resultPerpage = 12;
+    const blogCount = await blogPost.countDocuments();
+    // const filterProduct = await toggleModel.find();
+
+    const apiFetures = new ApiFetures(blogPost.find(), req.query)
+      .filter()
+      .pagination(resultPerpage);
+
+    console.log(apiFetures);
+    const blog = await blogPost.find();
+    //   const blog = await apiFetures.query.populate([
+    //   { path: "category", model: "blogCategore" },
+    //   { path: "user", model: "User" },
+    //   { path: "seo", model: "SEO" },
+    // ]);
 
     const reverseBlog = blog.reverse();
     res.status(200).json({
       success: true,
       blog: reverseBlog,
+      resultPerpage,
+      blogCount,
     });
   } catch (err) {
     return next(new ErrorHandler("Post - Internal Server Error" + err, 500));
