@@ -6,9 +6,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsLayers, BsCartDash } from "react-icons/bs";
 import "./BottomNav.css";
 import { NavLink } from "react-router-dom";
+import { MobNav } from "../header/assets/MobNav";
+import { NavList } from "../header/assets/NavList";
 
 function BottomNav() {
   const [activeTab, setActiveTab] = useState(false);
+
   const nav = [
     { link: "/", icon: <IoHomeOutline /> },
     { link: "/account", icon: <FaRegUser /> },
@@ -31,8 +34,7 @@ function BottomNav() {
               {item.icon}
             </NavLink>
           ))}
-
-          <RxHamburgerMenu />
+     
         </div>
       </div>
     </>

@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { LogoutUser } from "../../../actions/UserAction";
 import { useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
+import './Profile.css'
 import {
   FaGauge,
   FaUser,
