@@ -59,6 +59,7 @@ import UpdatePost from "./components/admin/post/update/UpdatePost";
 import AllSeo from "./components/admin/seo/allseo/AllSeo";
 import PostCategory from "./components/admin/post/category/PostCategory";
 import UpdateSubCategory from "./components/admin/category/updateCtegory/UpdateSubCategory";
+import CategoryPage from "./components/blog/categorypage/CategoryPage";
 
 function App() {
   const { loading } = useSelector((state) => state.user);
@@ -101,6 +102,7 @@ function App() {
                 />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<SingleBlog />} />
+                <Route path="/blog/category/:id" element={<CategoryPage />} />
 
                 <Route
                   path="/product/:id"

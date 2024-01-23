@@ -16,16 +16,15 @@ exports.getAllBlogPost = catchAsyncError(async (req, res, next) => {
     const apiFetures = new ApiFetures(blogPost.find(), req.query)
       .filter()
       .pagination(resultPerpage);
-
-    console.log(apiFetures);
-    const blog = await blogPost.find();
-    //   const blog = await apiFetures.query.populate([
-    //   { path: "category", model: "blogCategore" },
-    //   { path: "user", model: "User" },
-    //   { path: "seo", model: "SEO" },
-    // ]);
+console.log(apiFetures)
+    const blog = await apiFetures.query.populate([
+      { path: "category", model: "blogCategore" },
+      { path: "user", model: "User" },
+      { path: "seo", model: "SEO" },
+    ]);
 
     const reverseBlog = blog.reverse();
+    
     res.status(200).json({
       success: true,
       blog: reverseBlog,

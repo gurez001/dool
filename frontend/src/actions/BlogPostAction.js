@@ -18,33 +18,35 @@ import {
   DELETE_BLOG_POST_FAILED,
 } from "../constants/BlogPostConstants";
 
-export const GetBlogPost = () => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_BLOG_REQUEST });
+export const GetBlogPost =
+  (
+    currentPage = 1,
+    categorie
+  ) =>
+  async (dispatch) => {
+    try {
+      console.log(  currentPage,
+        categorie)
+      dispatch({ type: ALL_BLOG_REQUEST });
 
-    let link = `/api/v1/products`;
-    // let link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
-    // if (ratings) {
-    //   link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
-    // }
-    // if (subcategory) {
-    //   // link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${categorie}&ratings[gte]=${ratings}`;
-    //   link = `/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${categorie}&subcategory=${subcategory}&ratings[gte]=${ratings}`;
-    // }
+      let link = `/api/v1/blog/all-post?page=${currentPage}`;
+      if (categorie) {
+        link = `/api/v1/blog/all-post?page=${currentPage}&category=${categorie}`;
+      }
 
-    const { data } = await axios.get("/api/v1/blog/all-post");
+      const { data } = await axios.get(link);
 
-    dispatch({
-      type: ALL_BLOG_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_BLOG_FAILED,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: ALL_BLOG_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_BLOG_FAILED,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 //-------------------------single post page
 
@@ -138,12 +140,18 @@ export const DeleteBlogPost = (id) => async (dispatch) => {
 // UPDATE blog post
 
 export const UpdateBlogPost =
-  (title, selectedCategoryId, description, slug, id,
+  (
+    title,
+    selectedCategoryId,
+    description,
+    slug,
+    id,
     seotitle,
     keyword,
     metadec,
     metalink
-    ) => async (dispatch) => {
+  ) =>
+  async (dispatch) => {
     try {
       dispatch({ type: UPDATE_BLOG_POST_REQUEST });
 

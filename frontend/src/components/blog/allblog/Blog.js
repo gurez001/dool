@@ -6,20 +6,28 @@ import {GetBlogCategory} from "../../../actions/BlogCategoryAction";
 import './Blog.css'
 import Loader from "../../layout/loader/Loader";
 import BlogCategory from "./BlogCategory";
+import Pagination from "react-js-pagination";
 
 const Blog = () => {
   const dispatch = useDispatch();
   const { loading, blogCount, resultPerpage, blog, error } = useSelector(
     (state) => state.allBlog
-  );
+    );
+    
+    const [currentPage, setCurrentPage] = useState(1);
+  const setCurrentPageNo = (e) => {
+    setCurrentPage(e);
+  };
+
+
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(ClearError());
     }
-    dispatch(GetBlogPost());
+    dispatch(GetBlogPost(currentPage));
     dispatch(GetBlogCategory());
-  }, [dispatch,alert,error]);
+  }, [dispatch,alert,error,currentPage]);
   return (
     <>
       <div className="cont-area-h">
@@ -47,7 +55,7 @@ const Blog = () => {
           </div>
         </div>
         </div>
-        {/* {resultPerpage < blogCount && (
+       {resultPerpage < blogCount && (
         <div className="pagination-box">
           <Pagination
             totalItemsCount={blogCount}
@@ -64,7 +72,7 @@ const Blog = () => {
             activeLinkClass="pageLinkActive"
           />
         </div>
-      )} */}
+      )} 
       </div>
     </>
   );
